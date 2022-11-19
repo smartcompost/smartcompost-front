@@ -51,7 +51,7 @@ const AddWastePage: NextPage = () => {
   const fetchAvailableUnits = async () => {
     const response = await fetch(`http://10.250.194.26:8000/api/waste-units/`);
     const newData = await response.json();
-    setAvailableUnits(newData.map((unit: WasteUnitFromApi) => ({ label: `${unit.name} (${parseInt(unit.volume)} ${unit.volume_unit_name})`, value: unit.id })));
+    setAvailableUnits(newData.map((unit: WasteUnitFromApi) => ({ label: `${unit.name} (${+(unit.volume)} ${unit.volume_unit_name})`, value: unit.id })));
   };
 
   const submitWaste = async () => {
