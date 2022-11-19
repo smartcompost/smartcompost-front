@@ -19,12 +19,70 @@ a {
   box-sizing: border-box;
 }
 
-@media (prefers-color-scheme: dark) {
-  html {
-    color-scheme: dark;
-  }
-  body {
-    color: white;
-    background: black;
-  }
+/* .ReactTags__tagInput {
+  color: red;
+} */
+
+.ReactTags__tag {
+  background-color: green;
+  color: white;
+  padding: 0.5rem;
+  border-radius: 3px;
+}
+
+.ReactTags__tagInputField {
+  background-color: rgb(243, 244, 246);
+}
+
+.ReactTags__tags {
+  margin-block: 1rem;
+}
+
+.ReactTags__tagInput > input {
+  width: 100%;
+  border: 2px solid;
+  border-color: rgb(156, 163, 175);
+  border-radius: 3px;
+  padding: 1rem;
+  margin-top: 1rem;
+
+  /* w-full border-2 border-gray-400 bg-gray-100 focus:border-black rounded p-4 placeholder:text-gray-400 focus:outline-none */
+}
+
+.ReactTags__tagInput > input:focus {
+  outline: none;
+  border-color: black;
+  border-radius: 3px 3px 0 0;
+  /* w-full border-2 border-gray-400 bg-gray-100 focus:border-black rounded p-4 placeholder:text-gray-400 focus:outline-none */
+}
+
+.ReactTags__selected {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.ReactTags__remove {
+  margin-left: 0.5rem;
+}
+
+.ReactTags__suggestions > ul > li {
+  padding: 0.5rem;
+}
+
+.ReactTags__suggestions {
+  border: 2px solid black;
+  border-top: 0;
+}
+
+.rmsc {
+  width: 100%;
+  --rmsc-border: rgb(156, 163, 175) !important;
+  --rmsc-bg: rgb(243, 244, 246) !important;
+  --rmsc-radius: 3px !important;
+  --rmsc-h: 60px !important;
+}
+
+.rmsc .dropdown-container {
+  border-width: 2px !important;
 }
