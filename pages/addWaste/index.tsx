@@ -42,16 +42,18 @@ const AddWastePage: NextPage = () => {
   const [availableUnits, setAvailableUnits] = useState<WasteUnit[]>([]);
   const [selectedUnits, setSelectedUnits] = useState<WasteUnit[]>([]);
 
+  const [error, setError] = useState<Boolean | null>(null);
+
   const fetchAvailableTags = async () => {
     const response = await fetch(`http://10.250.194.26:8000/api/tags/`);
     const newData = await response.json();
-    setAvailableTags(newData.map((tag: TagFromApi) => ({ ...tag, id: tag.id.toString(), text: tag.name })));
+    setAvailableTags(newData.results.map((tag: TagFromApi) => ({ ...tag, id: tag.id.toString(), text: tag.name })));
   };
 
   const fetchAvailableUnits = async () => {
     const response = await fetch(`http://10.250.194.26:8000/api/waste-units/`);
     const newData = await response.json();
-    setAvailableUnits(newData.map((unit: WasteUnitFromApi) => ({ label: `${unit.name} (${+(unit.volume)} ${unit.volume_unit_name})`, value: unit.id })));
+    setAvailableUnits(newData.results.map((unit: WasteUnitFromApi) => ({ label: `${unit.name} (${+(unit.volume)} ${unit.volume_unit_name})`, value: unit.id })));
   };
 
   const submitWaste = async () => {
@@ -68,7 +70,7 @@ const AddWastePage: NextPage = () => {
       method: "post",
       body: JSON.stringify(body),
       headers: { "Content-Type": "application/json" }
-    });
+    }).then((res) => setError(res.status === 201));
   };
 
   useEffect(() => {
@@ -95,7 +97,7 @@ const AddWastePage: NextPage = () => {
             type="number"
             placeholder='kg/m³'
             className={`${inputStyles} w-1/2`}
-            value={density || ''}
+            value={density === null ? '' : density}
             onChange={(e) => setDensity(parseInt(e.target.value))}
         />
       </div>
@@ -105,7 +107,7 @@ const AddWastePage: NextPage = () => {
             type="number"
             className={`${inputStyles} w-1/2`}
             placeholder="0-14"
-            value={ph || ''}
+            value={ph === null ? '' : ph}
             onChange={(e) => setPh(parseInt(e.target.value))}
         />
       </div>
@@ -127,11 +129,25 @@ const AddWastePage: NextPage = () => {
       <div className={containerStyle}>
         <button
           onClick={submitWaste}
-          className="bg-[green] w-full p-4 text-white hover:bg-green-500 transition-colors"
+          className="bg-green w-full p-4 text-white hover:bg-green-500 transition-colors"
         >
           Submit
         </button>
       </div>
+      {error ? (
+        <div className={containerStyle}>
+          <p className="text-green">
+            Waste added successfuly!
+          </p>
+      </div>
+      ) : null}
+      {error === false ? (
+        <div className={containerStyle}>
+          <p className="text-[red]">
+            Error has occured while adding a new waste!
+          </p>
+      </div>
+      ) : null}
     </section>
   )
 };
