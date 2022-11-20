@@ -1,43 +1,23 @@
-import React from "react";
+import React, { useEffect } from "react";
 import type { NextPage } from "next";
 import Item, { BinColors } from "./components/Item";
 
 type Items = {
   name: string;
-  isCompostable: boolean;
-  binColor: BinColors;
+  bin_color: BinColors;
 };
-
-const listItems: Items[] = [
-  {
-    name: "Carrot Peel",
-    isCompostable: false,
-    binColor: "green",
-  },
-  {
-    name: "Potato Peel",
-    isCompostable: false,
-    binColor: "blue",
-  },
-  {
-    name: "Tomato Peel",
-    isCompostable: false,
-    binColor: "yellow",
-  },
-  {
-    name: "Orange Peel",
-    isCompostable: false,
-    binColor: "black",
-  },
-  {
-    name: "Compost",
-    isCompostable: true,
-    binColor: null,
-  },
-];
 
 const CanIComposeIt: NextPage = () => {
   const [searchValue, setSearchValue] = React.useState("");
+  const [data, setData] = React.useState<Items[]>([]);
+
+  useEffect(() => {
+    fetch(
+      `http://10.250.194.26:8000/api/wastes/search/?search=${searchValue}&limit=5`
+    )
+      .then((response) => response.json())
+      .then((data) => setData(data.results));
+  }, [searchValue]);
 
   return (
     <div className="flex h-screen w-96 flex-col">
@@ -58,7 +38,7 @@ const CanIComposeIt: NextPage = () => {
       </div>
       <div className="min-h-[60%]">
         <ul>
-          {listItems
+          {data
             .filter((item) => {
               if (searchValue === "") {
                 return null;
@@ -68,12 +48,12 @@ const CanIComposeIt: NextPage = () => {
                 return item;
               }
             })
-            .map(({ binColor, isCompostable, name }) => (
+            .map(({ bin_color, name }, index) => (
               <Item
-                isCompostable={isCompostable}
+                isCompostable={bin_color === ""}
                 name={name}
-                binColor={binColor}
-                key={name}
+                binColor={bin_color}
+                key={`${name}_${index}`}
               />
             ))}
         </ul>

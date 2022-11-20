@@ -1,40 +1,9 @@
-import React, { JSXElementConstructor } from "react";
+import React from "react";
 import Image from "next/image";
-
-const OptionButton: React.FC<{
-  name: string;
-  weight: number;
-  setSize: (n: string) => void;
-  isSet: boolean;
-}> = ({ name, weight, setSize, isSet }) => {
-  const imgSize = weight * 5;
-  return (
-    <div className="item w-32 h-32 text-center p-3">
-      <button
-        className={`px-1 py-3 border-1 min-h-[8rem] ${
-          isSet ? " border-solid border-gray shadow-md" : ""
-        }`}
-        onClick={() => {
-          setSize(String(imgSize));
-        }}
-      >
-        <Image
-          className="m-auto"
-          src="/mediumBin.svg"
-          alt="Bin Logo"
-          width={imgSize * 3}
-          height={imgSize}
-        />
-        <h1>{name}</h1>
-        <h1>{`around ${imgSize}kg`}</h1>
-      </button>
-    </div>
-  );
-};
+import OptionButton from "./components/OptionButton";
 
 const AddToCompost = () => {
   const [inputValue, setInputValue] = React.useState("");
-
   const [size, setSize] = React.useState("");
   const [quantity, setQuantity] = React.useState(1);
 
@@ -61,7 +30,7 @@ const AddToCompost = () => {
         />
       </div>
       <div className="flex justify-around w-full my-4 items-center">
-        <div className="item w-32 text-center p-3">Quantity</div>
+        <div className="item w-32 text-center p-3 text-xl">Quantity</div>
         <div className="item w-32 text-center p-3 flex align-center">
           <button
             onClick={() => {
@@ -70,7 +39,7 @@ const AddToCompost = () => {
           >
             <Image
               className="m-auto"
-              src="/minus.svg"
+              src="/minusFull.svg"
               alt="Minus Logo"
               width={25}
               height={25}
@@ -93,8 +62,8 @@ const AddToCompost = () => {
         </div>
       </div>
       <div className="flex justify-around w-full my-4">
-        <div className="item w-32 h-32 text-center p-3">
-          Or enter your weight
+        <div className="item h-32 text-center p-3 text-xl">
+          Enter different weight
         </div>
         <div className="item w-32 h-32 text-center p-3">
           <input
@@ -104,6 +73,8 @@ const AddToCompost = () => {
             value={inputValue}
             onChange={(e) => {
               setInputValue(e.target.value);
+              setSize("");
+              setQuantity(0);
             }}
           />
         </div>

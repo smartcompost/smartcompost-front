@@ -1,7 +1,7 @@
 import Image from "next/image";
 import { useRouter } from "next/router";
 
-export type BinColors = "green" | "blue" | "yellow" | "black" | "brown" | null;
+export type BinColors = "green" | "blue" | "yellow" | "black" | "brown" | '';
 
 const Item: React.FC<{
   isCompostable: boolean;
